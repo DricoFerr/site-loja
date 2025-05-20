@@ -1,131 +1,119 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Elementos do menu mobile
+    // Seletores principais do menu mobile
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('nav');
-    
-    // Criar overlay dinamicamente
+
+    // Cria e adiciona overlay que escurece o fundo ao abrir o menu
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
     document.body.appendChild(overlay);
 
-    // Função para fechar o menu
+    // Fecha o menu mobile
     const closeMobileMenu = () => {
         nav.classList.remove('active');
         overlay.classList.remove('active');
         menuToggle.innerHTML = '☰';
-        document.body.style.overflow = 'auto'; // Libera o scroll da página
+        document.body.style.overflow = 'auto';
     };
 
-    // Função para abrir o menu
+    // Abre o menu mobile
     const openMobileMenu = () => {
         nav.classList.add('active');
         overlay.classList.add('active');
         menuToggle.innerHTML = '✕';
-        document.body.style.overflow = 'hidden'; // Bloqueia o scroll da página
+        document.body.style.overflow = 'hidden';
     };
 
-    // Alternar menu
+    // Alterna entre abrir e fechar o menu
     menuToggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        
-        if (nav.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
-        }
+        nav.classList.contains('active') ? closeMobileMenu() : openMobileMenu();
     });
 
-    // Fechar ao clicar em links
+    // Fecha o menu ao clicar em qualquer link da navegação
     document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', closeMobileMenu);
     });
 
-    // Fechar ao clicar no overlay
+    // Fecha o menu ao clicar fora (no overlay)
     overlay.addEventListener('click', closeMobileMenu);
 
-    // Fechar ao pressionar ESC
+    // Fecha o menu ao pressionar ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && nav.classList.contains('active')) {
             closeMobileMenu();
         }
     });
 
-    // Fechar ao redimensionar para desktop
+    // Fecha o menu ao redimensionar para desktop
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768 && nav.classList.contains('active')) {
             closeMobileMenu();
         }
     });
 
-    // Efeito de blur no header ao scrollar
+    // Aplica efeito de fundo ao header após rolar a página
     window.addEventListener('scroll', function() {
-        const header = document.querySelector('header');
-        header.classList.toggle('scrolled', window.scrollY > 20);
+        document.querySelector('header')
+            .classList.toggle('scrolled', window.scrollY > 20);
     });
 
-    // Rolagem suave para a seção Nuvve Collection ao clicar no botão NUVVE
-    document.querySelector('.nuvve-cta-button').addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector('.nuvve-collection-section');
+    // Rolagem suave até a seção Nuvve Collection
+    const scrollToSection = (selector) => {
+        const target = document.querySelector(selector);
         if (target) {
-            window.scrollTo({
-                top: target.offsetTop - 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
         }
+    };
+
+    // Botão "NUVVE"
+    document.querySelector('.nuvve-cta-button')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        scrollToSection('.nuvve-collection-section');
     });
 
-    // Rolagem suave para Nuvve Collection ao clicar em "Catálogo"
-    document.querySelectorAll('a[href="#colecao"], a[href="#nuvve-collection"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('.nuvve-collection-section');
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 0,
-                    behavior: 'smooth'
-                });
-            }
+    // Links para a coleção
+    document.querySelectorAll('a[href="#colecao"], a[href="#nuvve-collection"]')
+        .forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                scrollToSection('.nuvve-collection-section');
+            });
         });
-    });
 
-    // Rolagem suave para Contato ao clicar em "Contato"
-    document.querySelectorAll('a[href="#contato"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('.contact-section');
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 0,
-                    behavior: 'smooth'
-                });
-            }
+    // Links para a seção de contato
+    document.querySelectorAll('a[href="#contato"]')
+        .forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                scrollToSection('.contact-section');
+            });
         });
-    });
 
-    // Efeitos de aparecimento suave
+    // Observa elementos para aplicar efeito de aparição suave
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             }
         });
-    }, {threshold: 0.1});
+    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.contact-method, .highlight-content').forEach(el => {
-        observer.observe(el);
-    });
+    document.querySelectorAll('.contact-method, .highlight-content')
+        .forEach(el => observer.observe(el));
 
-    // Slider aleatório com loop infinito real via Node.js
+    // Inicia carrossel horizontal com imagens vindas do servidor
     function iniciarCarrosselNode() {
         fetch('/api/carrossel')
             .then(res => res.json())
-            .then(imagensAleatorias => {
+            .then(imagens => {
                 const slider = document.getElementById('slider');
+                if (!slider) return;
+
                 slider.innerHTML = '';
-                // Duplicar para loop infinito
-                const allImages = [...imagensAleatorias, ...imagensAleatorias];
-                allImages.forEach(src => {
+                const imagensDuplicadas = [...imagens, ...imagens];
+
+                imagensDuplicadas.forEach(src => {
                     const div = document.createElement('div');
                     div.className = 'slider-item';
                     const img = document.createElement('img');
@@ -134,36 +122,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     slider.appendChild(div);
                 });
 
-                let sliderWidth = slider.querySelector('.slider-item').offsetWidth + 32;
+                let itemWidth = slider.querySelector('.slider-item')?.offsetWidth + 32 || 0;
                 let animationFrame;
-                function animateSlider() {
-                    sliderWidth = slider.querySelector('.slider-item').offsetWidth + 32;
+
+                const animateSlider = () => {
+                    itemWidth = slider.querySelector('.slider-item')?.offsetWidth + 32 || 0;
                     slider.style.transition = 'none';
                     let start = null;
-                    let pos = 0;
+
                     function step(timestamp) {
                         if (!start) start = timestamp;
-                        let progress = timestamp - start;
-                        pos = (progress * 0.08) % (sliderWidth * imagensAleatorias.length);
+                        const progress = timestamp - start;
+                        const pos = (progress * 0.08) % (itemWidth * imagens.length);
                         slider.style.transform = `translateX(-${pos}px)`;
                         animationFrame = requestAnimationFrame(step);
                     }
+
                     animationFrame = requestAnimationFrame(step);
-                }
+                };
+
                 animateSlider();
+
                 window.addEventListener('resize', () => {
                     slider.style.transform = 'none';
                     setTimeout(animateSlider, 300);
                 });
             });
     }
+
     iniciarCarrosselNode();
 
-    // Carregar galerias (cards clicáveis, sem botão extra)
+    // Carrega galeria de imagens e aplica navegação por clique e acessibilidade
     fetch('/api/galerias')
         .then(res => res.json())
         .then(pastas => {
             const container = document.getElementById('galeriasCards');
+            if (!container) return;
+
             container.innerHTML = '';
             pastas.slice(0, 5).forEach(pasta => {
                 fetch(`/api/galeria/${pasta}`)
@@ -175,13 +170,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         card.tabIndex = 0;
                         card.setAttribute('role', 'button');
                         card.setAttribute('aria-label', `Abrir galeria ${pasta}`);
+
                         card.innerHTML = `
                             <div class="galeria-thumb"${thumb ? ` style="background-image:url('${thumb}');"` : ''}></div>
                             <h3>${pasta}</h3>
                         `;
+
                         container.appendChild(card);
 
-                        // Card inteiro abre a galeria
+                        // Abre galeria em modal ao clicar
                         card.onclick = () => {
                             const modal = document.createElement('div');
                             modal.className = 'modal-galeria';
@@ -194,9 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             `;
                             document.body.appendChild(modal);
+
                             modal.querySelector('.close-modal').onclick = () => modal.remove();
 
-                            // Clique na imagem abre modal ampliado (foto ocupa tela)
                             modal.querySelectorAll('.galeria-grid img').forEach(imgEl => {
                                 imgEl.onclick = (e) => {
                                     e.stopPropagation();
@@ -215,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         };
 
-                        // Acessibilidade: Enter/Barra de espaço também abre galeria
+                        // Acessibilidade: ativa galeria com Enter ou Espaço
                         card.addEventListener('keydown', function(e) {
                             if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault();
@@ -227,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 
-// Esconde a tela de loading após o carregamento completo
+// Oculta tela de loading ao finalizar carregamento da página
 window.addEventListener('load', function() {
     const loading = document.getElementById('loading-screen');
     if (loading) {
