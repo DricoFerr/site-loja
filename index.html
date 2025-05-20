@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maia Ferraz - Moda Fitness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+<div id="loading-screen">
+    <div class="loading-logo-container">
+        <img src="assets/images/logo1.png" alt="Logo Maia Ferraz" class="loading-logo logo1" />
+        <img src="assets/images/logo2.png" alt="Logo Maia Ferraz 2" class="loading-logo logo2" />
+    </div>
+    <div class="loading-text">Carregando...</div>
+</div>
+<header>
+    <div class="logo">Maia Ferraz</div>
+    <div class="menu-toggle">☰</div>
+    <nav>
+        <ul>
+            <li><a href="#">Início</a></li>
+            <li><a href="#colecao">Coleção</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+</header>
+
+     <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Maia Ferraz</h1>
+            <p class="hero-subtitle">Nuvve Collection</p>
+        </div>
+    </section>
+
+    <section class="pink-section">
+    <div class="container">
+        <div class="collection-content">
+            <h2 class="collection-title">Lançamento exclusivo: Nuvve Collection – Maia Ferraz</h2>
+            <p class="collection-subtitle">Chegou a nova coleção da Maia Ferraz, feita para mulheres que vivem em movimento.</p>
+            
+            <div class="collection-description">
+                <p>A Nuvve Collection traz peças leves, confortáveis e cheias de estilo, com tecidos tecnológicos que valorizam o corpo e acompanham sua rotina dentro e fora da academia.</p>
+                
+                <p class="highlight-text">É hora de renovar seu look fitness com atitude e liberdade.</p>
+                
+                <p class="cta-text">Garanta já as novidades da coleção mais esperada da temporada.</p>
+            </div>
+            
+            <!-- BOTÃO NUVVE NO LUGAR DO "SAIBA MAIS" -->
+            <a href="#" class="nuvve-cta-button">
+                NUVVE
+                <span class="nuvve-icon">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <h2 class="section-title">Contato</h2>
+        <p class="contact-text destaque-contato">
+            <strong>Para realizar pedidos ou tirar dúvidas,<br>entre em contato conosco através de nossas redes sociais:</strong>
+        </p>
+        
+        <div class="social-buttons">
+            <a href="https://wa.me/553399958466" class="whatsapp-button" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://instagram.com/maiaferrazmodafitness" class="instagram-button" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+        
+        <p class="contact-info">Respondemos rápido! Horário de atendimento: 9h às 18h (seg a sex)</p>
+    </div>
+</section>
+
+<section class="nuvve-collection-section">
+    <div class="container">
+        <h2 class="nuvve-collection-title">Nuvve Collection</h2>
+        <p class="nuvve-collection-desc">
+            Descubra a coleção mais ousada e tecnológica da Maia Ferraz.<br>
+            Peças criadas para elevar seu treino e seu estilo ao próximo nível.
+        </p>
+    </div>
+</section>
+
+<section class="slider-section">
+    <div class="slider-container">
+        <div class="slider" id="slider"></div>
+        <!-- Removidas as setas do carrossel -->
+    </div>
+</section>
+
+<div class="galerias-cards" id="galeriasCards"></div>
+
+    <script src="./assets/js/script.js"></script>
+    <script>
+        // Fallback para navegadores que não suportam backdrop-filter
+        if (!CSS.supports('backdrop-filter', 'blur(1px)')) {
+            document.querySelectorAll('header').forEach(header => {
+                header.style.backgroundColor = 'rgba(255, 155, 180, 0.95)';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "loja-maia-ferraz",
+  "version": "1.0.0",
+  "description": "Vitrine digital de moda fitness Maia Ferraz com carrossel e galerias dinâmicas.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Adriano Ferraz",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
