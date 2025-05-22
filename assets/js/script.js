@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 slider.innerHTML = '';
                 const imagensDuplicadas = [...imagens, ...imagens];
 
+
                 imagensDuplicadas.forEach(src => {
                     const div = document.createElement('div');
                     div.className = 'slider-item';
