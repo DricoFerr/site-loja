@@ -4,11 +4,10 @@
   "description": "Vitrine digital de moda fitness Maia Ferraz com carrossel e galerias dinâmicas.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js"
   },
-  "author": "Adriano Ferraz",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2"
+  "engines": {
+    "node": ">=16.x"
   }
 }
